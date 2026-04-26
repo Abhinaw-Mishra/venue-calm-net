@@ -56,6 +56,11 @@ export function AlertList() {
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-display text-base font-semibold">{meta.emoji} {meta.label}</span>
                     <span className="text-sm text-muted-foreground">· {a.zone}</span>
+                    {(a.floor || a.room) && (
+                      <span className="inline-flex items-center gap-1 rounded-full border border-primary/25 bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
+                        🏨 {a.floor && `Floor ${a.floor}`}{a.floor && a.room && " · "}{a.room && `Room ${a.room}`}
+                      </span>
+                    )}
                     <span className={`ml-1 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${pStyle.chip}`}>
                       <span className={`h-1.5 w-1.5 rounded-full ${pStyle.dot}`} /> {pStyle.label}
                     </span>

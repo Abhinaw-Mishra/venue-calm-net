@@ -9,7 +9,7 @@ interface State {
   alerts: Alert[];
   broadcasts: Broadcast[];
   setRole: (r: Role | null) => void;
-  addAlert: (input: { type: IncidentType; zone: Zone; message?: string; reporter?: Role }) => Alert;
+  addAlert: (input: { type: IncidentType; zone: Zone; message?: string; reporter?: Role; floor?: string; room?: string }) => Alert;
   updateAlert: (id: string, patch: Partial<Alert>) => void;
   assignTeam: (id: string, team?: string) => void;
   startResponse: (id: string) => void;
@@ -58,7 +58,7 @@ export const useStore = create<State>()(
         { id: id(), message: "Routine evening safety check completed in all zones.", zone: "All Zones", createdAt: Date.now() - 1000 * 60 * 25 },
       ],
       setRole: (role) => set({ role }),
-      addAlert: ({ type, zone, message, reporter = "guest" }) => {
+      addAlert: ({ type, zone, message, reporter = "guest", floor, room }) => {
         const meta = INCIDENT_META[type];
         const alert: Alert = {
           id: id(),
@@ -66,6 +66,8 @@ export const useStore = create<State>()(
           status: "pending",
           priority: meta.defaultPriority,
           zone,
+          floor: floor?.trim() || undefined,
+          room: room?.trim() || undefined,
           message,
           createdAt: Date.now(),
           reporter,

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, MapPin, Send } from "lucide-react";
+import { ArrowLeft, CheckCircle2, MapPin, Send, Hotel } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useStore } from "@/lib/store";
 import { INCIDENT_META, PRIORITY_STYLES } from "@/lib/incident-meta";
@@ -18,14 +19,17 @@ export default function Report() {
 
   const [type, setType] = useState<IncidentType | null>(null);
   const [zone, setZone] = useState<Zone>("Lobby");
+  const [floor, setFloor] = useState("");
+  const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState<null | { id: string; priority: string; zone: Zone; type: IncidentType; createdAt: number }>(null);
+  const [submitted, setSubmitted] = useState<null | { id: string; priority: string; zone: Zone; type: IncidentType; createdAt: number; floor?: string; room?: string }>(null);
 
   const submit = () => {
     if (!type) return;
-    const a = addAlert({ type, zone, message: message.trim() || undefined, reporter: role });
-    toast.success("🚨 Emergency reported successfully", { description: `Priority ${a.priority.toUpperCase()} • ${zone}` });
-    setSubmitted({ id: a.id, priority: a.priority, zone: a.zone, type: a.type, createdAt: a.createdAt });
+    const a = addAlert({ type, zone, message: message.trim() || undefined, reporter: role, floor, room });
+    const locBits = [a.floor && `Floor ${a.floor}`, a.room && `Room ${a.room}`].filter(Boolean).join(" · ");
+    toast.success("🚨 Emergency reported successfully", { description: `Priority ${a.priority.toUpperCase()} • ${zone}${locBits ? ` • ${locBits}` : ""}` });
+    setSubmitted({ id: a.id, priority: a.priority, zone: a.zone, type: a.type, createdAt: a.createdAt, floor: a.floor, room: a.room });
   };
 
   if (submitted) {
@@ -54,6 +58,14 @@ export default function Report() {
                 </Stat>
               </div>
 
+              {(submitted.floor || submitted.room) && (
+                <div className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                  🏨 {submitted.floor && <span>Floor <span className="font-semibold">{submitted.floor}</span></span>}
+                  {submitted.floor && submitted.room && <span className="text-muted-foreground">·</span>}
+                  {submitted.room && <span>Room <span className="font-semibold">{submitted.room}</span></span>}
+                </div>
+              )}
+
               <div className="mt-3 font-mono text-xs text-muted-foreground">
                 Reported {new Date(submitted.createdAt).toLocaleTimeString()} • ID #{submitted.id.slice(0, 6).toUpperCase()}
               </div>
@@ -62,7 +74,7 @@ export default function Report() {
                 <Button onClick={() => navigate("/dashboard")} className="bg-gradient-primary text-primary-foreground shadow-glow">
                   View on Dashboard
                 </Button>
-                <Button variant="outline" onClick={() => { setSubmitted(null); setType(null); setMessage(""); }}>
+                <Button variant="outline" onClick={() => { setSubmitted(null); setType(null); setMessage(""); setFloor(""); setRoom(""); }}>
                   Report another
                 </Button>
               </div>
@@ -132,7 +144,41 @@ export default function Report() {
         </section>
 
         <section className="glass mt-5 rounded-2xl p-6">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">3 · Message <span className="font-normal normal-case text-muted-foreground/70">(optional)</span></div>
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            <Hotel className="h-3.5 w-3.5" /> 3 · Hotel location <span className="font-normal normal-case text-muted-foreground/70">(optional)</span>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Floor</label>
+              <Input
+                value={floor}
+                onChange={(e) => setFloor(e.target.value)}
+                placeholder="e.g. 4"
+                inputMode="numeric"
+                maxLength={4}
+                className="mt-1 border-white/5 bg-white/[0.02]"
+              />
+            </div>
+            <div>
+              <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Room number</label>
+              <Input
+                value={room}
+                onChange={(e) => setRoom(e.target.value)}
+                placeholder="e.g. 506"
+                maxLength={8}
+                className="mt-1 border-white/5 bg-white/[0.02]"
+              />
+            </div>
+          </div>
+          {(floor || room) && (
+            <div className="mt-3 text-xs text-muted-foreground">
+              Responders will be guided to <span className="text-foreground">{zone}{floor && ` · Floor ${floor}`}{room && ` · Room ${room}`}</span>
+            </div>
+          )}
+        </section>
+
+        <section className="glass mt-5 rounded-2xl p-6">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">4 · Message <span className="font-normal normal-case text-muted-foreground/70">(optional)</span></div>
           <Textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
