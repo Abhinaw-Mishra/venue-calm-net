@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Alert, AlertStatus, Broadcast, IncidentType, Role, Zone } from "./types";
-import { INCIDENT_META, suggestionFor, TEAMS, ZONES } from "./incident-meta";
+import { INCIDENT_META, suggestionFor, TEAMS } from "./incident-meta";
+import { ZONES } from "./types";
 
 interface State {
   role: Role | null;
@@ -97,3 +98,4 @@ export const useStore = create<State>()(
 );
 
 export { ZONES };
+void ZONES;
