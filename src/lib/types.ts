@@ -13,6 +13,8 @@ export interface Alert {
   status: AlertStatus;
   priority: Priority;
   zone: Zone;
+  floor?: string;
+  room?: string;
   message?: string;
   createdAt: number;
   resolvedAt?: number;
