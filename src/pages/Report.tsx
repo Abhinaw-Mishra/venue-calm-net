@@ -58,6 +58,14 @@ export default function Report() {
                 </Stat>
               </div>
 
+              {(submitted.floor || submitted.room) && (
+                <div className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs text-foreground">
+                  🏨 {submitted.floor && <span>Floor <span className="font-semibold">{submitted.floor}</span></span>}
+                  {submitted.floor && submitted.room && <span className="text-muted-foreground">·</span>}
+                  {submitted.room && <span>Room <span className="font-semibold">{submitted.room}</span></span>}
+                </div>
+              )}
+
               <div className="mt-3 font-mono text-xs text-muted-foreground">
                 Reported {new Date(submitted.createdAt).toLocaleTimeString()} • ID #{submitted.id.slice(0, 6).toUpperCase()}
               </div>
@@ -66,7 +74,7 @@ export default function Report() {
                 <Button onClick={() => navigate("/dashboard")} className="bg-gradient-primary text-primary-foreground shadow-glow">
                   View on Dashboard
                 </Button>
-                <Button variant="outline" onClick={() => { setSubmitted(null); setType(null); setMessage(""); }}>
+                <Button variant="outline" onClick={() => { setSubmitted(null); setType(null); setMessage(""); setFloor(""); setRoom(""); }}>
                   Report another
                 </Button>
               </div>
