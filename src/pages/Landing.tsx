@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
-import { ArrowRight, ShieldAlert, Radio, Brain, Map as MapIcon, Activity, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, ShieldAlert, Radio, Brain, Map as MapIcon, Activity, Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
 import { RolePicker } from "@/components/RolePicker";
 import { DashboardPreview } from "@/components/DashboardPreview";
+import { runLiveDemo } from "@/lib/simulator";
 
 const STEPS = [
   { n: "01", title: "Detect & Report", desc: "Anyone in the venue can flag an incident in two taps with auto-zone detection." },
@@ -19,6 +20,11 @@ const FEATURES = [
 ];
 
 export default function Landing() {
+  const navigate = useNavigate();
+  const launchDemo = () => {
+    navigate("/dashboard");
+    setTimeout(() => runLiveDemo(), 600);
+  };
   return (
     <div className="min-h-screen">
       <SiteHeader />
@@ -26,24 +32,31 @@ export default function Landing() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-40" aria-hidden />
+        <div className="orb h-72 w-72 -left-10 top-10 bg-primary/25" aria-hidden />
+        <div className="orb h-80 w-80 right-0 top-40 bg-accent/20" style={{ animationDelay: "2s" }} aria-hidden />
+        <div className="orb h-64 w-64 left-1/3 bottom-0 bg-critical/15" style={{ animationDelay: "4s" }} aria-hidden />
         <div className="container relative grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
           <div className="animate-fade-in">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> Hospitality Safety OS
+            <span className="inline-flex items-center gap-2 rounded-full border border-critical/40 bg-critical/10 px-3 py-1 text-xs font-medium text-critical">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-critical opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-critical" />
+              </span>
+              Live · 7 venues online now
             </span>
             <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-              Real-Time Emergency <br />
-              Response System for{" "}
-              <span className="text-gradient">Smart Venues</span>
+              🚨 Real-Time Emergency <br />
+              Response for{" "}
+              <span className="animated-gradient-text">Smart Venues</span>
             </h1>
             <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-              When seconds matter, fragmented chats and radios fail. Venue Response Hub unifies guests,
-              staff, and responders on one mission-control surface — detecting incidents, prioritizing
-              them, and orchestrating resolution end to end.
+              Instant alerts. Coordinated response. Lives protected. Venue Response Hub unifies guests,
+              staff, and responders on one mission-control surface — detecting, prioritizing, and resolving
+              incidents end to end.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/report">
-                <Button size="lg" className="bg-gradient-critical text-critical-foreground shadow-critical hover:opacity-95">
+                <Button size="lg" className="bg-gradient-critical text-critical-foreground shadow-critical hover:opacity-95 shine">
                   <ShieldAlert className="mr-2 h-5 w-5" /> Report Emergency
                 </Button>
               </Link>
@@ -52,6 +65,9 @@ export default function Landing() {
                   Enter Dashboard <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
+              <Button size="lg" variant="ghost" onClick={launchDemo} className="text-primary hover:bg-primary/10">
+                <PlayCircle className="mr-2 h-5 w-5" /> Run Live Demo
+              </Button>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
               {[
