@@ -113,33 +113,56 @@ export default function Booking() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30" aria-hidden />
+        <div className="orb h-[420px] w-[420px] -left-32 top-10 bg-primary/25" aria-hidden />
+        <div className="orb h-[360px] w-[360px] right-[-80px] top-40 bg-accent/25" style={{ animationDelay: "-5s" }} aria-hidden />
+        <div className="orb h-[280px] w-[280px] left-1/3 bottom-0 bg-primary-glow/20" style={{ animationDelay: "-9s" }} aria-hidden />
+
         <div className="container relative grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
           <div className="animate-fade-in">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> New · GPT-powered booking engine
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary backdrop-blur">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              New · GPT-powered booking engine
             </span>
-            <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
-              AI-Powered <span className="text-gradient">Smart Booking</span> & Venue Management
+            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-[3.75rem]">
+              AI-Powered <span className="animated-gradient-text">Smart Booking</span>
+              <br className="hidden sm:block" /> for Modern Hospitality
             </h1>
-            <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-              Reduce no-shows. Increase revenue. Automate your hospitality operations — with one calm dashboard your whole team will love.
+            <p className="mt-6 max-w-xl text-base text-muted-foreground sm:text-lg">
+              Reduce no-shows. Increase revenue. Automate your operations — with one calm dashboard your whole team will love.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#contact">
-                <Button size="lg" className="bg-gradient-primary text-primary-foreground shadow-glow hover:opacity-95">
+                <Button size="lg" className="shine bg-gradient-primary text-primary-foreground shadow-glow hover:opacity-95">
                   Get Started <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </a>
               <a href="#demo">
-                <Button size="lg" variant="outline" className="border-primary/40 bg-primary/5 hover:bg-primary/10">
-                  View Demo
+                <Button size="lg" variant="outline" className="border-primary/40 bg-primary/5 backdrop-blur hover:bg-primary/10">
+                  View Live Demo
                 </Button>
               </a>
             </div>
+
+            {/* Trust ticker */}
+            <div className="mt-10 overflow-hidden">
+              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Trusted by venues worldwide</div>
+              <div className="relative mt-3 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_20%,#000_80%,transparent)]">
+                <div className="flex w-max gap-10 [animation:ticker_22s_linear_infinite]">
+                  {[..."Olive Tree · Trattoria Bella · Coastline Resorts · Aurora Hotels · Bistro 21 · Hyatt Tokyo · Saffron Lounge".split(" · "),
+                    ..."Olive Tree · Trattoria Bella · Coastline Resorts · Aurora Hotels · Bistro 21 · Hyatt Tokyo · Saffron Lounge".split(" · ")].map((b, i) => (
+                    <span key={i} className="font-display text-sm text-muted-foreground/80">{b}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4">
-              {STATS.map((s) => (
-                <div key={s.v}>
-                  <div className="font-display text-2xl font-semibold text-foreground">{s.k}</div>
+              {STATS.map((s, i) => (
+                <div key={s.v} className="animate-fade-in" style={{ animationDelay: `${150 + i * 80}ms` }}>
+                  <div className="font-display text-2xl font-semibold text-gradient">{s.k}</div>
                   <div className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">{s.v}</div>
                 </div>
               ))}
@@ -148,9 +171,10 @@ export default function Booking() {
 
           {/* Hero dashboard preview */}
           <div className="animate-scale-in">
-            <div className="glass-strong relative overflow-hidden rounded-2xl p-5 shadow-elegant">
-              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" aria-hidden />
-              <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-accent/20 blur-3xl" aria-hidden />
+            <div className="glass-strong glow-border relative overflow-hidden rounded-2xl p-5">
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/30 blur-3xl" aria-hidden />
+              <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-accent/25 blur-3xl" aria-hidden />
+              <div className="absolute inset-0 noise opacity-40" aria-hidden />
               <div className="relative">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -169,8 +193,8 @@ export default function Booking() {
                     { k: "Bookings", v: "248", c: "text-primary" },
                     { k: "Revenue", v: "₹1.2L", c: "text-success" },
                     { k: "No-show", v: "6%", c: "text-warning" },
-                  ].map((s) => (
-                    <div key={s.k} className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+                  ].map((s, i) => (
+                    <div key={s.k} className="rounded-xl border border-white/5 bg-white/[0.03] p-3 transition-transform hover:-translate-y-0.5 animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
                       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{s.k}</div>
                       <div className={`mt-1 font-display text-xl font-semibold ${s.c}`}>{s.v}</div>
                     </div>
@@ -182,7 +206,7 @@ export default function Booking() {
                     <AreaChart data={trendData}>
                       <defs>
                         <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.6} />
+                          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.7} />
                           <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                         </linearGradient>
                       </defs>
@@ -193,7 +217,7 @@ export default function Booking() {
                   </ResponsiveContainer>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] p-3">
+                <div className="group mt-3 flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] p-3 transition-all hover:border-accent/30 hover:bg-accent/5">
                   <div className="flex items-center gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent/15 ring-1 ring-accent/30">
                       <Wand2 className="h-4 w-4 text-accent" />
@@ -203,13 +227,14 @@ export default function Booking() {
                       <div className="text-[11px] text-muted-foreground">Confidence 91% · Expected lift ₹14,500</div>
                     </div>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* PROBLEM → SOLUTION → IMPACT */}
       <section className="container py-20">
