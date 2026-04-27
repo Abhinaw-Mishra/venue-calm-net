@@ -284,8 +284,10 @@ export default function Booking() {
 
       {/* AI DEMO */}
       <section id="demo" className="container py-20">
-        <div className="glass-strong relative overflow-hidden rounded-3xl p-6 sm:p-10">
+        <div className="glass-strong glow-border relative overflow-hidden rounded-3xl p-6 sm:p-10">
           <div className="absolute inset-0 grid-bg opacity-20" aria-hidden />
+          <div className="orb h-72 w-72 -right-20 -top-20 bg-accent/20" aria-hidden />
+
           <div className="relative grid gap-8 lg:grid-cols-2">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Live AI Demo</div>
