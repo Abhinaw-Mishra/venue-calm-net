@@ -24,6 +24,7 @@ export function SiteHeader() {
           <Link to="/" className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground">Home</Link>
           <Link to="/report" className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground">Report</Link>
           <Link to="/dashboard" className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboard</Link>
+          <Link to="/booking" className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground">Bookwise</Link>
         </nav>
         <div className="flex items-center gap-2">
           {role && (
