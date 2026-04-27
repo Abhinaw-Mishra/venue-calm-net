@@ -265,16 +265,22 @@ export default function Booking() {
         </div>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
-            <div key={f.title} className="glass group rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-glow animate-fade-in" style={{ animationDelay: `${i * 60}ms` }}>
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
+            <div key={f.title} className="glass shine group relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-glow animate-fade-in" style={{ animationDelay: `${i * 60}ms` }}>
+              <span className="absolute right-4 top-4 font-mono text-[10px] tracking-widest text-muted-foreground/60">0{i + 1}</span>
+              <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-0" aria-hidden />
+              <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 text-primary ring-1 ring-primary/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-glow">
                 <f.icon className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 font-display text-lg font-semibold">{f.title}</h3>
-              <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
+              <h3 className="relative mt-5 font-display text-lg font-semibold">{f.title}</h3>
+              <p className="relative mt-1.5 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+              <div className="relative mt-5 flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                Learn more <ArrowRight className="h-3 w-3" />
+              </div>
             </div>
           ))}
         </div>
       </section>
+
 
       {/* AI DEMO */}
       <section id="demo" className="container py-20">
